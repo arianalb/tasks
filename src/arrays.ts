@@ -5,7 +5,13 @@
  * the number twice.
  */
 export function bookEndList(numbers: number[]): number[] {
-    return numbers;
+    if (numbers.length === 0) {
+        return numbers;
+    } else if (numbers.length === 1) {
+        return [...numbers, ...numbers];
+    }
+
+    return [numbers[0], numbers[numbers.length - 1]];
 }
 
 /**
@@ -13,7 +19,8 @@ export function bookEndList(numbers: number[]): number[] {
  * number has been tripled (multiplied by 3).
  */
 export function tripleNumbers(numbers: number[]): number[] {
-    return numbers;
+    const tripled = numbers.map((num: number): number => num * 3);
+    return tripled;
 }
 
 /**
@@ -21,7 +28,10 @@ export function tripleNumbers(numbers: number[]): number[] {
  * the number cannot be parsed as an integer, convert it to 0 instead.
  */
 export function stringsToIntegers(numbers: string[]): number[] {
-    return [];
+    const stringtoint = numbers.map((num: string): number =>
+        isNaN(parseInt(num)) ? 0 : parseInt(num),
+    );
+    return stringtoint;
 }
 
 /**
@@ -32,7 +42,11 @@ export function stringsToIntegers(numbers: string[]): number[] {
  */
 // Remember, you can write functions as lambdas too! They work exactly the same.
 export const removeDollars = (amounts: string[]): number[] => {
-    return [];
+    const removeSymbol = amounts.map((amounts) => amounts.replace("$", ""));
+    const stringToInt = removeSymbol.map((nums: string): number =>
+        isNaN(parseInt(nums)) ? 0 : parseInt(nums),
+    );
+    return stringToInt;
 };
 
 /**
@@ -41,7 +55,13 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    return [];
+    const removeQuestionMark = messages.filter(
+        (message: string): boolean => !message.includes("?"),
+    );
+    const makeUpperCase = removeQuestionMark.map((message: string): string =>
+        message.includes("!") ? message.toUpperCase() : message,
+    );
+    return makeUpperCase;
 };
 
 /**
@@ -49,7 +69,8 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
  * 4 letters long.
  */
 export function countShortWords(words: string[]): number {
-    return 0;
+    const shortWords = words.filter((word: string): boolean => word.length < 4);
+    return shortWords.length;
 }
 
 /**
@@ -58,7 +79,15 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
-    return false;
+    if (colors.length === 0) {
+        return true;
+    }
+    const findRGB = colors.every(
+        (color: string): boolean =>
+            color === "red" || color === "blue" || color === "green",
+    );
+
+    return findRGB;
 }
 
 /**
@@ -69,7 +98,15 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    if (addends.length === 0) {
+        return "0=0";
+    }
+    const sum = addends.reduce(
+        (currentTotal: number, addend: number) => currentTotal + addend,
+        0,
+    );
+    const intToString = addends.map((addend: number): string => addend.toString());
+    return sum + "=" + intToString.join("+");
 }
 
 /**
@@ -82,5 +119,36 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    // search array for negative Number
+    const hasNegativeNum = values.find((value: number): boolean => value < 0);
+
+    // if negative number found
+    if (hasNegativeNum) {
+        // find index of negative number
+        const negNum = values.findIndex((value: number): boolean => value < 0);
+
+        // add the sum of the previous numbers
+        const numbersToAdd = values.slice(0, negNum);
+        const prevSum = numbersToAdd.reduce(
+            (currentTotal: number, num: number) => currentTotal + num,
+            0,
+        );
+
+        // create a new array with the sum after the negative number
+        return [
+            ...values.slice(0, negNum + 1),
+            prevSum,
+            ...values.slice(negNum + 1),
+        ];
+    } else {
+        // if no negative number found, find sum
+        const findSum = values.reduce(
+            (currentTotal: number, value: number) => currentTotal + value,
+            0,
+        );
+
+        // add the sum to the end of the list
+        const newValues = [...values, findSum];
+        return newValues;
+    }
 }
