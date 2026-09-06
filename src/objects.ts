@@ -167,7 +167,7 @@ export function mergeQuestion(
         name: name,
         body: contentQuestion.body,
         type: contentQuestion.type,
-        options: contentQuestion.options,
+        options: [...contentQuestion.options],
         expected: contentQuestion.expected,
         published: false,
         points: points,
